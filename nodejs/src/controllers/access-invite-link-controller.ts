@@ -15,6 +15,9 @@ export const accessInviteLinkController: FastifyPluginAsyncZod = async (
 				params: z.object({
 					subscriberId: z.string().uuid(),
 				}),
+				response: {
+					302: z.null(),
+				},
 			},
 		},
 		async (request, reply) => {
