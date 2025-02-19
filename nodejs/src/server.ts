@@ -8,8 +8,9 @@ import {
 	serializerCompiler,
 	validatorCompiler,
 } from "fastify-type-provider-zod";
+import { accessInviteLinkController } from "./controllers/access-invite-link-controller";
+import { subscriberToEventController } from "./controllers/subscriber-to-event-controller";
 import { env } from "./env";
-import { subscriberToEventRoute } from "./routes/subscriber-to-event-route";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -34,7 +35,8 @@ app.register(fastifySwaggerUi, {
 	routePrefix: "/docs",
 });
 
-app.register(subscriberToEventRoute);
+app.register(subscriberToEventController);
+app.register(accessInviteLinkController);
 
 app.listen({ port: env.PORT }).then(() => {
 	console.log(`🚀 HTTP server running on port ${env.PORT}`);
