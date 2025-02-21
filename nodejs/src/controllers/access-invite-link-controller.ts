@@ -12,6 +12,7 @@ export const accessInviteLinkController: FastifyPluginAsyncZod = async (
 			schema: {
 				summary: "Access invite link and redirects user",
 				tags: ["referral"],
+				operationId: "accessInviteLink",
 				params: z.object({
 					subscriberId: z.string().uuid(),
 				}),
@@ -27,7 +28,7 @@ export const accessInviteLinkController: FastifyPluginAsyncZod = async (
 
 			const redirectUrl = new URL(env.WEB_URL);
 
-			redirectUrl.searchParams.set("referrer", subscriberId);
+			redirectUrl.searchParams.set("referrerId", subscriberId);
 
 			return reply.redirect(redirectUrl.toString(), 302);
 		},

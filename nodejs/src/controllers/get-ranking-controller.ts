@@ -8,8 +8,8 @@ export const getRankingController: FastifyPluginAsyncZod = async (app) => {
 		{
 			schema: {
 				summary: "Get ranking",
-				operationId: "getRanking",
 				tags: ["referral"],
+				operationId: "getRanking",
 				response: {
 					200: z.object({
 						ranking: z.array(

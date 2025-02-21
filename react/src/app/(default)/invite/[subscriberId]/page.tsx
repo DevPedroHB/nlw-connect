@@ -1,15 +1,25 @@
 import logoSvg from "@/components/svgs/logo.svg";
+import { env } from "@/env";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { InviteLinkInput } from "./_components/invite-link-input";
-import { InviteStats } from "./_components/invite-stats";
-import { ReferralRanking } from "./_components/referral-ranking";
+import { InviteLinkInput } from "../_components/invite-link-input";
+import { InviteStats } from "../_components/invite-stats";
+import { ReferralRanking } from "../_components/referral-ranking";
 
 export const metadata: Metadata = {
 	title: "Inscrição confirmada",
 };
 
-export default function Invite() {
+interface IInvite {
+	params: Promise<{
+		subscriberId: string;
+	}>;
+}
+
+export default async function Invite({ params }: IInvite) {
+	const { subscriberId } = await params;
+	const inviteUrl = new URL(`/invites/${subscriberId}`, env.API_URL);
+
 	return (
 		<div className="flex md:flex-row flex-col justify-between items-center gap-16 min-h-dvh">
 			<div className="flex flex-col gap-10 w-full max-w-[34.375rem]">
@@ -38,8 +48,8 @@ export default function Invite() {
 							inscrições:
 						</p>
 					</div>
-					<InviteLinkInput />
-					<InviteStats />
+					<InviteLinkInput inviteUrl={inviteUrl.toString()} />
+					<InviteStats subscriberId={subscriberId} />
 				</div>
 			</div>
 			<ReferralRanking />

@@ -11,9 +11,9 @@ import {
 import { accessInviteLinkController } from "./controllers/access-invite-link-controller";
 import { getRankingController } from "./controllers/get-ranking-controller";
 import { getSubscriberInviteClicksController } from "./controllers/get-subscriber-invite-clicks-controller";
-import { getSubscriberInvitesCountController } from "./controllers/get-subscriber-invites-count-controller";
+import { getSubscriberInviteCountController } from "./controllers/get-subscriber-invite-count-controller";
 import { getSubscriberRankingPositionController } from "./controllers/get-subscriber-ranking-position-controller";
-import { subscriberToEventController } from "./controllers/subscriber-to-event-controller";
+import { subscribeToEventController } from "./controllers/subscribe-to-event-controller";
 import { env } from "./env";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
@@ -39,10 +39,10 @@ app.register(fastifySwaggerUi, {
 	routePrefix: "/docs",
 });
 
-app.register(subscriberToEventController);
+app.register(subscribeToEventController);
 app.register(accessInviteLinkController);
 app.register(getSubscriberInviteClicksController);
-app.register(getSubscriberInvitesCountController);
+app.register(getSubscriberInviteCountController);
 app.register(getSubscriberRankingPositionController);
 app.register(getRankingController);
 

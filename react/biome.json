@@ -17,6 +17,9 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
+			"style": {
+				"noUnusedTemplateLiteral": "off"
+			},
 			"suspicious": {
 				"noMisleadingCharacterClass": "off"
 			}

@@ -1,34 +1,45 @@
 "use client";
 
-import { subscriptionAction } from "@/actions/subscription-action";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { subscriptionSchema } from "@/types/schemas/subscription-schema";
+import { subscribeToEvent } from "@/types/api";
+import {
+	type SubscriptionSchema,
+	subscriptionSchema,
+} from "@/types/schemas/subscription-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { ArrowRight, Mail, User } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useQueryState } from "nuqs";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export function SubscriptionForm() {
-	const { form, handleSubmitWithAction } = useHookFormAction(
-		subscriptionAction,
-		zodResolver(subscriptionSchema),
-		{
-			actionProps: {
-				async onSuccess({ data }) {
-					toast.success(data?.message);
-				},
-			},
-		},
-	);
+	const router = useRouter();
+	const [referrerId] = useQueryState("referrerId");
+
 	const {
 		register,
+		handleSubmit,
 		formState: { errors },
-	} = form;
+	} = useForm<SubscriptionSchema>({
+		resolver: zodResolver(subscriptionSchema),
+	});
+
+	async function handleSubscribeToEvent(data: SubscriptionSchema) {
+		const { subscriberId } = await subscribeToEvent({
+			...data,
+			referrerId,
+		});
+
+		toast.success("Inscrição realizada com sucesso!");
+
+		router.push(`/invite/${subscriberId}`);
+	}
 
 	return (
 		<form
-			onSubmit={handleSubmitWithAction}
+			onSubmit={handleSubmit(handleSubscribeToEvent)}
 			className="flex flex-col gap-6 bg-gray-700 p-8 border border-gray-600 rounded-2xl w-full md:max-w-[27.5rem]"
 		>
 			<h2 className="font-heading font-semibold text-gray-200 text-xl">

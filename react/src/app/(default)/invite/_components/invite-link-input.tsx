@@ -6,12 +6,15 @@ import { Copy, Link } from "lucide-react";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
 
-export function InviteLinkInput() {
-	const inviteLink = "http://localhost:3000/invite/12345678-1234-1234-12345678";
+interface IInviteLinkInput {
+	inviteUrl: string;
+}
+
+export function InviteLinkInput({ inviteUrl }: IInviteLinkInput) {
 	const [_, copyFn] = useCopyToClipboard();
 
 	async function handleCopy() {
-		copyFn(inviteLink)
+		copyFn(inviteUrl)
 			.then(() => {
 				toast.success("O link de convite foi copiado com sucesso!");
 			})
@@ -27,7 +30,7 @@ export function InviteLinkInput() {
 			<Input.Slot>
 				<Link className="size-5" />
 			</Input.Slot>
-			<Input.Control defaultValue={inviteLink} readOnly />
+			<Input.Control defaultValue={inviteUrl} readOnly />
 			<Button
 				type="button"
 				variant="icon"
